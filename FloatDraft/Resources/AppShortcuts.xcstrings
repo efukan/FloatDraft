@@ -1,0 +1,46 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Add text to ${applicationName}": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName}にテキストを追加"
+          }
+        }
+      }
+    },
+    "Get the last copied text from ${applicationName}": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName}で直前にコピーしたテキストを取得"
+          }
+        }
+      }
+    },
+    "New ${applicationName} draft": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName}で新しい下書き"
+          }
+        }
+      }
+    },
+    "Open a draft in ${applicationName}": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName}で下書きを開く"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

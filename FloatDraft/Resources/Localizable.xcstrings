@@ -1,0 +1,1268 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%lld chars · %lld non-space · %lld lines": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld chars · %2$lld non-space · %3$lld lines"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld 文字 · 空白除く %2$lld · %3$lld 行"
+          }
+        }
+      }
+    },
+    "%lld invisible": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "見えない文字 %lld"
+          }
+        }
+      }
+    },
+    "%lld of %lld recent": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld of %2$lld recent"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近 %1$lld / %2$lld 件"
+          }
+        }
+      }
+    },
+    "(not set)": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "（未設定）"
+          }
+        }
+      }
+    },
+    "About FloatDraft": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FloatDraft について"
+          }
+        }
+      }
+    },
+    "Actual Size": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "実際のサイズ"
+          }
+        }
+      }
+    },
+    "Add ${text} to the draft": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${text} を下書きに追加"
+          }
+        }
+      }
+    },
+    "Add Text": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テキストを追加"
+          }
+        }
+      }
+    },
+    "Add Text to Draft": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テキストを下書きに追加"
+          }
+        }
+      }
+    },
+    "Adds text to the FloatDraft draft. An empty draft is replaced; otherwise the text is added on a new line at the end. You can undo it with Command-Z in the panel.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FloatDraft の下書きにテキストを追加します。下書きが空なら置き換え、空でなければ末尾に改行して追加します。パネルで ⌘Z を押すと取り消せます。"
+          }
+        }
+      }
+    },
+    "Allow FloatDraft in System Settings › General › Login Items.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「システム設定」›「一般」›「ログイン項目」で FloatDraft を許可してください。"
+          }
+        }
+      }
+    },
+    "Appearance": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外観"
+          }
+        }
+      }
+    },
+    "Background": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "背景"
+          }
+        }
+      }
+    },
+    "Background opacity and pinning are in the panel itself (the slider icon in its header), so you can preview them live.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "背景の不透明度とピン留めは、パネル上部のスライダーアイコンから設定します。その場で見た目を確認できます。"
+          }
+        }
+      }
+    },
+    "Bigger": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拡大"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャンセル"
+          }
+        }
+      }
+    },
+    "Change Shortcut…": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ショートカットを変更…"
+          }
+        }
+      }
+    },
+    "Characters / characters excluding spaces and line breaks / lines": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字数 / 空白と改行を除いた文字数 / 行数"
+          }
+        }
+      }
+    },
+    "Clear": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "消去"
+          }
+        }
+      }
+    },
+    "Clear Unpinned": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピン留め以外を消去"
+          }
+        }
+      }
+    },
+    "Click to replace the draft, ⌥-click to insert at the cursor (⌘Z undoes either)": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クリックで下書きを置き換え、⌥クリックでカーソル位置に挿入（どちらも ⌘Z で取り消せます）"
+          }
+        }
+      }
+    },
+    "Code Block": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コードブロック"
+          }
+        }
+      }
+    },
+    "Color mode": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表示モード"
+          }
+        }
+      }
+    },
+    "Copied — press ⌘V to paste": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コピーしました — ⌘V で貼り付け"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コピー"
+          }
+        }
+      }
+    },
+    "Copy & Clear  ⌘↩": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コピーして消去  ⌘↩"
+          }
+        }
+      }
+    },
+    "Copy the draft to the clipboard, clear it, and return to the previous app.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下書きをクリップボードにコピーして消去し、元のアプリに戻ります。"
+          }
+        }
+      }
+    },
+    "Copy without clearing (⌥⌘↩)": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "消去せずにコピー（⌥⌘↩）"
+          }
+        }
+      }
+    },
+    "Cut": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カット"
+          }
+        }
+      }
+    },
+    "Dark": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダーク"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "削除"
+          }
+        }
+      }
+    },
+    "Delete %lld unpinned items? This can't be undone.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピン留め以外の %lld 件を削除しますか？ 元に戻せません。"
+          }
+        }
+      }
+    },
+    "Delete every history item except pinned ones": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピン留めした項目以外の履歴をすべて削除します"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完了"
+          }
+        }
+      }
+    },
+    "Drafts you send with Copy & Clear appear here.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「コピーして消去」した下書きがここに表示されます。"
+          }
+        }
+      }
+    },
+    "Edit": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編集"
+          }
+        }
+      }
+    },
+    "Finish the text you are typing in FloatDraft first.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "先に FloatDraft で入力中の文字を確定してください。"
+          }
+        }
+      }
+    },
+    "Format": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォーマット"
+          }
+        }
+      }
+    },
+    "General": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一般"
+          }
+        }
+      }
+    },
+    "Get Last Copied Text": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直前にコピーしたテキストを取得"
+          }
+        }
+      }
+    },
+    "Glass": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ガラス"
+          }
+        }
+      }
+    },
+    "Graphite": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "グラファイト"
+          }
+        }
+      }
+    },
+    "Hide history (⌘Y)": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴を隠す（⌘Y）"
+          }
+        }
+      }
+    },
+    "History": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴"
+          }
+        }
+      }
+    },
+    "History (⌘Y)": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴（⌘Y）"
+          }
+        }
+      }
+    },
+    "History is stored on this Mac only.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴はこのMacにのみ保存されます。"
+          }
+        }
+      }
+    },
+    "History…": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴…"
+          }
+        }
+      }
+    },
+    "In the panel, ⌘+ and ⌘− change the text size and ⌘0 resets it.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パネルでは ⌘+ と ⌘− で文字サイズを変更し、⌘0 で元に戻せます。"
+          }
+        }
+      }
+    },
+    "Indigo": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "インディゴ"
+          }
+        }
+      }
+    },
+    "Insert Pinned Item": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピン留めした項目を挿入"
+          }
+        }
+      }
+    },
+    "Insert from History": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴から挿入"
+          }
+        }
+      }
+    },
+    "Keep the panel open when switching Spaces": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作スペースを切り替えてもパネルを閉じない"
+          }
+        }
+      }
+    },
+    "Keyboard Shortcut": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キーボードショートカット"
+          }
+        }
+      }
+    },
+    "Last dragged position": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最後にドラッグした位置"
+          }
+        }
+      }
+    },
+    "Launch FloatDraft at login": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログイン時に FloatDraft を起動"
+          }
+        }
+      }
+    },
+    "Light": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ライト"
+          }
+        }
+      }
+    },
+    "Match System": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "端末に合わせる"
+          }
+        }
+      }
+    },
+    "More Settings…": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "詳細設定…"
+          }
+        }
+      }
+    },
+    "Mouse cursor": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マウスカーソル"
+          }
+        }
+      }
+    },
+    "No History Yet": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴はまだありません"
+          }
+        }
+      }
+    },
+    "No Matches": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一致する項目はありません"
+          }
+        }
+      }
+    },
+    "Not pinned: hides when you click elsewhere.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピン留めなし：ほかの場所をクリックすると閉じます。"
+          }
+        }
+      }
+    },
+    "Ocean": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オーシャン"
+          }
+        }
+      }
+    },
+    "Open Draft Panel": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下書きパネルを開く"
+          }
+        }
+      }
+    },
+    "Open Login Items": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログイン項目を開く"
+          }
+        }
+      }
+    },
+    "Open Panel": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パネルを開く"
+          }
+        }
+      }
+    },
+    "Open FloatDraft Settings (⌘,): keyboard shortcut, launch at login, color mode, text size": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FloatDraft の設定を開きます（⌘,）：キーボードショートカット、ログイン時の起動、表示モード、文字サイズ"
+          }
+        }
+      }
+    },
+    "Open at": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開く位置"
+          }
+        }
+      }
+    },
+    "Open at Last Dragged Position": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最後にドラッグした位置で開く"
+          }
+        }
+      }
+    },
+    "Open at Mouse Cursor": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マウスカーソルの位置で開く"
+          }
+        }
+      }
+    },
+    "Open the panel at": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パネルを開く位置"
+          }
+        }
+      }
+    },
+    "Opens at the last dragged position. Click to open at the mouse cursor.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最後にドラッグした位置で開きます。クリックすると、マウスカーソルの位置で開くように切り替えます。"
+          }
+        }
+      }
+    },
+    "Opens at the mouse cursor. Click to open at the last dragged position.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マウスカーソルの位置で開きます。クリックすると、最後にドラッグした位置で開くように切り替えます。"
+          }
+        }
+      }
+    },
+    "Opens the FloatDraft panel next to the pointer, ready for typing.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マウスポインタのそばに FloatDraft のパネルを開き、すぐに入力できるようにします。"
+          }
+        }
+      }
+    },
+    "Panel settings": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パネルの設定"
+          }
+        }
+      }
+    },
+    "Paper": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ペーパー"
+          }
+        }
+      }
+    },
+    "Paste": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ペースト"
+          }
+        }
+      }
+    },
+    "Paste and Match Style": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ペーストしてスタイルを合わせる"
+          }
+        }
+      }
+    },
+    "Pin": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピン留め"
+          }
+        }
+      }
+    },
+    "Pinned": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピン留め"
+          }
+        }
+      }
+    },
+    "Pinned: stays open when you click elsewhere.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピン留め中：ほかの場所をクリックしても閉じません。"
+          }
+        }
+      }
+    },
+    "Press %@ in any app to open a draft panel next to your pointer.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "どのアプリでも %@ を押すと、ポインタの近くに下書きパネルが開きます。"
+          }
+        }
+      }
+    },
+    "Press ⌘Return to copy and clear the draft. You're taken back to your app; press ⌘V to paste.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌘Return で下書きをコピーして消去します。元のアプリに戻るので、⌘V で貼り付けてください。"
+          }
+        }
+      }
+    },
+    "Quit FloatDraft": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FloatDraft を終了"
+          }
+        }
+      }
+    },
+    "Quote": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用"
+          }
+        }
+      }
+    },
+    "Quote lines (⌘⇧.)": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "行を引用（⌘⇧.）"
+          }
+        }
+      }
+    },
+    "Re-copy Last": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直前のテキストを再コピー"
+          }
+        }
+      }
+    },
+    "Re-copy the last text you copied with Copy & Clear": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最後に「コピーして消去」したテキストをもう一度コピー"
+          }
+        }
+      }
+    },
+    "Recent": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近"
+          }
+        }
+      }
+    },
+    "Recent drafts stay in History, on this Mac only. Quote, code-block and tidy tools are in the panel's header.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近の下書きは履歴に残ります（このMacにのみ保存）。引用・コードブロック・空白整理のツールはパネル上部にあります。"
+          }
+        }
+      }
+    },
+    "Redo": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "やり直す"
+          }
+        }
+      }
+    },
+    "Restore from History": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴から復元"
+          }
+        }
+      }
+    },
+    "Return adds a new line · ⌘Return copies and clears": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return で改行 · ⌘Return でコピーして消去"
+          }
+        }
+      }
+    },
+    "Return always adds a new line, and confirming Japanese input never triggers anything — so nothing gets sent by accident.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return は常に改行です。日本語の変換を確定しても何も起きないので、うっかり送信してしまうことはありません。"
+          }
+        }
+      }
+    },
+    "Returns the text you last copied with Copy & Clear in FloatDraft, or empty text if there is none.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FloatDraft の「コピーして消去」で最後にコピーしたテキストを返します。まだない場合は空のテキストを返します。"
+          }
+        }
+      }
+    },
+    "Search history": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴を検索"
+          }
+        }
+      }
+    },
+    "Select All": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すべてを選択"
+          }
+        }
+      }
+    },
+    "Settings…": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定…"
+          }
+        }
+      }
+    },
+    "Show Draft": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下書きを表示"
+          }
+        }
+      }
+    },
+    "Show or hide the draft panel:": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下書きパネルの表示／非表示："
+          }
+        }
+      }
+    },
+    "Smaller": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "縮小"
+          }
+        }
+      }
+    },
+    "FloatDraft Settings": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FloatDraft 設定"
+          }
+        }
+      }
+    },
+    "FloatDraft is still starting. Try again in a moment.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FloatDraft を起動しています。しばらくしてからもう一度お試しください。"
+          }
+        }
+      }
+    },
+    "FloatDraft lives in the menu bar. Click its icon to open the panel; right-click for Settings.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FloatDraft はメニューバーに常駐します。アイコンをクリックするとパネルが開き、右クリックで設定などのメニューが開きます。"
+          }
+        }
+      }
+    },
+    "Stay open when clicking elsewhere": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ほかの場所をクリックしても閉じない"
+          }
+        }
+      }
+    },
+    "Swiping to another desktop (or ⌃← / ⌃→) keeps the panel in front, so you can check something and keep typing. Turn off to close it as if you clicked elsewhere.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スワイプ（または ⌃← / ⌃→）で別のデスクトップへ移ってもパネルは前面に残るので、内容を確かめながら入力を続けられます。オフにすると、ほかの場所をクリックしたときと同じように閉じます。"
+          }
+        }
+      }
+    },
+    "Text": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テキスト"
+          }
+        }
+      }
+    },
+    "Text size": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字サイズ"
+          }
+        }
+      }
+    },
+    "The Graphite theme is always dark.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "グラファイトのテーマは常にダーク表示です。"
+          }
+        }
+      }
+    },
+    "The draft contains invisible characters that would be copied too. Click to remove them (Tidy Whitespace).": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下書きに見えない文字が含まれていて、コピーするとそのまま一緒に送られます。クリックで取り除きます（空白を整理）。"
+          }
+        }
+      }
+    },
+    "Theme": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマ"
+          }
+        }
+      }
+    },
+    "There is no text to add.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "追加するテキストがありません。"
+          }
+        }
+      }
+    },
+    "Tidy Whitespace": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "空白を整理"
+          }
+        }
+      }
+    },
+    "Tidy whitespace: remove trailing spaces, extra blank lines and invisible characters": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "空白を整理：行末のスペース、余分な空行、見えない文字を削除"
+          }
+        }
+      }
+    },
+    "Toggle Quote": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用の切り替え"
+          }
+        }
+      }
+    },
+    "Try It Now": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "試してみる"
+          }
+        }
+      }
+    },
+    "Try a different search.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "別のキーワードで検索してください。"
+          }
+        }
+      }
+    },
+    "Undo": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取り消す"
+          }
+        }
+      }
+    },
+    "Unpin": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ピン留めを解除"
+          }
+        }
+      }
+    },
+    "Use a monospaced font": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等幅フォントを使う"
+          }
+        }
+      }
+    },
+    "View": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表示"
+          }
+        }
+      }
+    },
+    "Welcome Guide…": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ようこそガイド…"
+          }
+        }
+      }
+    },
+    "Welcome to FloatDraft": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FloatDraft へようこそ"
+          }
+        }
+      }
+    },
+    "Wrap in code block (⌘⇧K)": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コードブロックで囲む（⌘⇧K）"
+          }
+        }
+      }
+    },
+    "Write first. Send when you mean it.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "まず書く。送るのは、送ると決めたときだけ。"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

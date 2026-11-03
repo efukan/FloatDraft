@@ -1,0 +1,113 @@
+name: FloatDraft
+
+options:
+  bundleIdPrefix: jp.efukan
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+  groupSortPosition: top
+
+packages:
+  KeyboardShortcuts:
+    url: https://github.com/sindresorhus/KeyboardShortcuts
+    from: 3.1.0
+
+settings:
+  base:
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    ARCHS: $(ARCHS_STANDARD)
+    SWIFT_VERSION: "6.0"
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+    GCC_TREAT_WARNINGS_AS_ERRORS: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    # Emits .stringsdata so scripts/verify.sh can check the String Catalog against the code.
+    SWIFT_EMIT_LOC_STRINGS: YES
+    DEAD_CODE_STRIPPING: YES
+    # Local CLI builds are ad-hoc signed; scripts/archive.sh overrides signing with the team for App Store builds.
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+  configs:
+    Debug:
+      ONLY_ACTIVE_ARCH: YES
+    Release:
+      ONLY_ACTIVE_ARCH: NO
+
+targets:
+  FloatDraft:
+    type: application
+    platform: macOS
+    sources:
+      - path: FloatDraft
+    dependencies:
+      - package: KeyboardShortcuts
+    postBuildScripts:
+      # Xcode signs the package's resource bundle with the build identity (Apple Development) and the
+      # App Store export leaves it that way, which App Store Connect rejects (ITMS-90284). The bundle
+      # has no executable, so drop its signature and let the app's own seal cover its files.
+      - name: Unsign package resource bundle
+        # User script sandboxing only allows removing declared outputs, so each signature file is listed.
+        script: |
+          for (( i = 1; i < SCRIPT_OUTPUT_FILE_COUNT; i++ )); do
+              file="SCRIPT_OUTPUT_FILE_$i"
+              rm -f "${!file}"
+          done
+          [[ ! -d "${SCRIPT_OUTPUT_FILE_0}" ]] || rmdir "${SCRIPT_OUTPUT_FILE_0}"
+        outputFiles:
+          - $(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/KeyboardShortcuts_KeyboardShortcuts.bundle/Contents/_CodeSignature
+          - $(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/KeyboardShortcuts_KeyboardShortcuts.bundle/Contents/_CodeSignature/CodeDirectory
+          - $(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/KeyboardShortcuts_KeyboardShortcuts.bundle/Contents/_CodeSignature/CodeRequirements
+          - $(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/KeyboardShortcuts_KeyboardShortcuts.bundle/Contents/_CodeSignature/CodeResources
+          - $(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/KeyboardShortcuts_KeyboardShortcuts.bundle/Contents/_CodeSignature/CodeSignature
+        basedOnDependencyAnalysis: false
+    settings:
+      base:
+        PRODUCT_NAME: FloatDraft
+        PRODUCT_BUNDLE_IDENTIFIER: jp.efukan.FloatDraft
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 2
+        INFOPLIST_FILE: FloatDraft/Support/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: FloatDraft/Support/FloatDraft.entitlements
+        ENABLE_APP_SANDBOX: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        COMBINE_HIDPI_IMAGES: YES
+      configs:
+        Release:
+          ENABLE_HARDENED_RUNTIME: YES
+          # Keep debugger entitlement (get-task-allow) out of Release so the sandbox-only check is exact.
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+
+  FloatDraftTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: FloatDraftTests
+    dependencies:
+      - target: FloatDraft
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: jp.efukan.FloatDraftTests
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  FloatDraft:
+    build:
+      targets:
+        FloatDraft: all
+        FloatDraftTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - FloatDraftTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
