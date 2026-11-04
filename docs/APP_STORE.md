@@ -1,6 +1,6 @@
 # FloatDraft — App Store 提出資料
 
-App Store Connect に入力する内容と、提出手順をまとめる。1.0.0 はこの内容をもとに公開済み。
+App Store Connect に入力する内容と、提出手順をまとめる。1.0.0 はこの内容をもとに公開済み。§3 は 1.0.1 用に更新してある。
 
 ---
 
@@ -78,9 +78,21 @@ FloatDraft は、ショートカット一つでマウスポインタのそばに
 ・どの整形も ⌘Z で元に戻せます
 ・文字数・空白を除いた文字数・行数をリアルタイムに表示
 
-■ 履歴
-・「コピーして消去」した下書きを最新 30 件まで保存。検索・ピン留め・復元ができます
+■ 見えない文字に気づける
+・貼り付けた文に紛れ込んだ、ゼロ幅スペースなどの見えない文字を数えて警告します
+・AI ツールへのプロンプトに指示を隠す手口や、表示順を偽装する制御文字にも気づけます
+・ワンクリックで取り除けて、⌘Z で元に戻せます
+
+■ 履歴と定型文
+・コピーした下書きを最新 30 件まで保存。検索・ピン留め・復元ができます
+・ピン留めした文は ⌘1〜⌘9 でカーソル位置に挿入できます
+・⌥⌘Return なら、消さずにコピー。同じ文を何か所にも送るときに便利です
 ・直前のテキストをワンクリックで再コピー
+
+■ 好みの見た目に
+・5 種類のテーマ（ペーパー、オーシャン、インディゴ、グラファイト、ガラス）
+・背景の不透明度を 50〜100% で調整しても、文字はくっきり表示されます
+・ライト／ダーク表示、文字サイズ、等幅フォントを選べます
 
 ■ Mac との連携
 ・サービスメニュー「FloatDraft で編集」: 他のアプリで選択したテキストを下書きに取り込めます
@@ -117,9 +129,21 @@ TIDY BEFORE YOU SEND
 • Every edit can be undone with ⌘Z
 • Live character, non-space and line counts
 
-HISTORY
-• Keeps your last 30 sent drafts, with search, pinning and one-click restore
+SPOT INVISIBLE CHARACTERS
+• Warns about hidden characters in pasted text, such as zero-width spaces, and shows how many there are
+• Helps you notice instructions hidden in AI prompts and control characters that reorder what you read
+• Remove them with one click, and undo with ⌘Z
+
+HISTORY AND SNIPPETS
+• Keeps your last 30 copied drafts, with search, pinning and one-click restore
+• Insert pinned text at the cursor with ⌘1–⌘9
+• ⌥⌘Return copies without clearing, for sending the same text to several places
 • Re-copy the last text with one click
+
+MAKE IT YOURS
+• Five themes: Paper, Ocean, Indigo, Graphite and Glass
+• Set the background opacity from 50 to 100% while the text stays fully opaque
+• Choose light or dark mode, text size and a monospaced font
 
 WORKS WITH YOUR MAC
 • Services menu: "Edit in FloatDraft" brings text selected in another app into your draft
@@ -133,12 +157,30 @@ Lives in the menu bar, not the Dock. Optional launch at login.
 ```
 
 ### キーワード（100 文字以内、カンマ区切り）
-- ja: `下書き,誤送信,日本語入力,IME,メモ,チャット,改行,クリップボード,テキスト,エディタ`
-- en: `draft,scratchpad,newline,IME,Japanese,input,chat,clipboard,text,editor,notes`
+名前とサブタイトルの語は検索の対象になるので、ここで繰り返さない。
+- ja: `日本語入力,IME,変換,メモ,チャット,改行,クリップボード,テキスト,エディタ,プロンプト,定型文,メニューバー`
+- en: `scratchpad,newline,IME,Japanese,input,chat,clipboard,text,editor,notes,prompt,snippet,menubar`
 
 ### プロモーションテキスト（任意、170字以内）
 - ja: `改行のつもりでも、変換の確定でも、送信してしまう事故をもう起こさない。書いてから、送る。`
 - en: `No more half-written messages sent by a Return meant for a new line or for confirming Japanese input. Write first, then send.`
+
+### リリースノート（このバージョンの新機能）
+1.0.1:
+```
+・ピン留めを外した古い項目が、そのまま履歴から消えてしまうことがある問題を修正しました
+・履歴ファイルを読み込めなかったときに、次のコピーで以前の履歴が上書きされないようにしました
+・他のアプリから貼り付けた文で、改行の種類によって「空白を整理」が効かなかったり、引用やコードブロックの形が崩れたりする問題を修正しました
+・メニューバーから再コピーしたときの完了表示が、画面の外や隅に出ることがある問題を修正しました
+・アプリのアイコンを新しくしました
+```
+```
+• Fixed an issue where an old item could disappear from history when you unpinned it
+• If the history file can't be read, the next copy no longer overwrites your earlier history
+• Fixed Tidy Whitespace, quotes and code blocks with some line break types in text pasted from other apps
+• Fixed the confirmation after Re-copy from the menu bar sometimes appearing off screen or in a corner
+• New app icon
+```
 
 ---
 
