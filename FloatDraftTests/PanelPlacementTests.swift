@@ -95,4 +95,23 @@ struct PanelPlacementTests {
     @Test func rememberModeWithoutSavedOriginFollowsMouse() {
         #expect(place(.rememberLastPosition, mouse: CGPoint(x: 700, y: 600)).origin == CGPoint(x: 490, y: 360))
     }
+
+    // MARK: Copy confirmation
+
+    @Test func confirmationCentersOnThePanelWhileItIsOpen() {
+        let panel = CGRect(x: 100, y: 200, width: 420, height: 220)
+        #expect(PanelPlacement.confirmationArea(panelFrame: panel, mouse: CGPoint(x: -1000, y: 500),
+                                                screens: [main, left]) == panel)
+    }
+
+    @Test func confirmationUsesTheMouseScreenWhenThePanelIsHidden() {
+        #expect(PanelPlacement.confirmationArea(panelFrame: nil, mouse: CGPoint(x: -1000, y: 500),
+                                                screens: [main, left]) == left.visibleFrame)
+    }
+
+    @Test func confirmationWithNoScreensFallsBackToTheMouse() {
+        let mouse = CGPoint(x: 10, y: 20)
+        #expect(PanelPlacement.confirmationArea(panelFrame: nil, mouse: mouse, screens: [])
+            == CGRect(origin: mouse, size: .zero))
+    }
 }

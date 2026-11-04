@@ -1,7 +1,8 @@
 import AppKit
 import SwiftUI
 
-/// Brief "Copied — press ⌘V to paste" confirmation shown where the panel was (E19).
+/// Brief "Copied — press ⌘V to paste" confirmation shown where the panel was, or on the mouse's screen
+/// if it wasn't open (E19).
 /// It never takes focus or mouse events, so the app the user returned to keeps the keyboard.
 final class CopyToast {
     static let displayDuration: Duration = .seconds(1.2)

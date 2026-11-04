@@ -12,7 +12,7 @@ final class PanelController: NSObject, NSWindowDelegate, NSMenuItemValidation, D
     var openSettingsWindow: () -> Void = {}
 
     private let pasteboard: NSPasteboard
-    private let copyToast = CopyToast()
+    let copyToast = CopyToast()
     private(set) lazy var panel: DraftPanel = makePanel()
 
     /// The last app other than FloatDraft that was active (E5). Focus returns here on Esc / Copy & Clear.
@@ -88,9 +88,13 @@ final class PanelController: NSObject, NSWindowDelegate, NSMenuItemValidation, D
             size: CGSize(width: preferences.panelSize.width + sidebarWidth, height: preferences.panelSize.height),
             mouse: NSEvent.mouseLocation,
             savedOrigin: preferences.savedOrigin,
-            screens: NSScreen.screens.map { ScreenGeometry(frame: $0.frame, visibleFrame: $0.visibleFrame) }
+            screens: screenGeometries
         ))
         focus()
+    }
+
+    private var screenGeometries: [ScreenGeometry] {
+        NSScreen.screens.map { ScreenGeometry(frame: $0.frame, visibleFrame: $0.visibleFrame) }
     }
 
     /// Opens the panel on the editor, closing any overlay. An already open panel stays where it is.
@@ -356,9 +360,11 @@ final class PanelController: NSObject, NSWindowDelegate, NSMenuItemValidation, D
     }
 
     private func finishCopy() {
-        let frame = panel.frame
+        // Re-copy from the menu bar runs with the panel hidden.
+        let area = PanelPlacement.confirmationArea(panelFrame: panel.isVisible ? panel.frame : nil,
+                                                   mouse: NSEvent.mouseLocation, screens: screenGeometries)
         hide(restoringFocus: true)
-        copyToast.show(centeredIn: frame)
+        copyToast.show(centeredIn: area)
     }
 
     func draftTextViewDidRequestCopyAndClear(_ textView: DraftTextView) {

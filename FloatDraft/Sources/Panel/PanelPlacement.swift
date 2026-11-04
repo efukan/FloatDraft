@@ -45,6 +45,13 @@ enum PanelPlacement {
         return clamp(frame, to: visibleFrame)
     }
 
+    /// The area the "Copied" confirmation centers in: the panel while it is on screen (`panelFrame`), otherwise
+    /// the screen under the mouse. A hidden panel's frame says nothing about where the user is now, and may even
+    /// be on a disconnected display.
+    static func confirmationArea(panelFrame: CGRect?, mouse: CGPoint, screens: [ScreenGeometry]) -> CGRect {
+        panelFrame ?? screen(containing: mouse, in: screens)?.visibleFrame ?? CGRect(origin: mouse, size: .zero)
+    }
+
     /// Moves (and if necessary shrinks) `frame` so it lies entirely inside `visible`.
     static func clamp(_ frame: CGRect, to visible: CGRect) -> CGRect {
         var result = frame

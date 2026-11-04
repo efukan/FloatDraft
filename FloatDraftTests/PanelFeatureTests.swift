@@ -89,6 +89,26 @@ struct PanelFeatureTests {
         #expect(environment.pasteboard.string(forType: .string) == "again")
     }
 
+    @Test func reCopyWithHiddenPanelConfirmsOnTheMouseScreen() {
+        let controller = environment.makePanelController()
+        controller.history.add("again")
+        // Where a hidden panel's frame can be left by a display that has since been disconnected.
+        controller.panel.setFrame(NSRect(x: 100_000, y: 100_000, width: 420, height: 220), display: false)
+        controller.reCopyLast()
+        let toast = controller.copyToast.window.frame
+        #expect(NSScreen.screens.contains { $0.frame.contains(CGPoint(x: toast.midX, y: toast.midY)) })
+    }
+
+    @Test func reCopyWithOpenPanelConfirmsOverThePanel() {
+        let controller = shownController()
+        controller.history.add("again")
+        let panel = controller.panel.frame
+        controller.reCopyLast()
+        let toast = controller.copyToast.window.frame
+        #expect(abs(toast.midX - panel.midX) < 1)
+        #expect(abs(toast.midY - panel.midY) < 1)
+    }
+
     @Test func reCopyWithoutHistoryLeavesClipboard() {
         Clipboard.write("untouched", to: environment.pasteboard)
         let controller = shownController()
