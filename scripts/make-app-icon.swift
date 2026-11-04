@@ -7,8 +7,9 @@
 // to preview it; edit this script rather than the document so the two stay in sync.
 //
 // Drawn entirely with paths (no SF Symbols: their license excludes app icons).
-// Motif: the small FloatDraft panel floating over another app's larger window, with a pencil
-// writing in it. Colors come from the Paper theme (PanelPalette.paper) and its coral accent.
+// Motif: the FloatDraft panel floating over another app's window, with a pencil writing in it. The whole icon
+// is that window, so the panel can be large enough to read at small sizes. Colors come from the Paper theme
+// (PanelPalette.paper) and its coral accent.
 import Foundation
 
 let iconURL = URL(fileURLWithPath: CommandLine.arguments.count > 1
@@ -33,35 +34,32 @@ func topRoundedRect(x: Double, y: Double, width: Double, height: Double, radius:
         + "V\(y + height) H\(x) V\(y + radius) Q\(x) \(y) \(x + radius) \(y) Z"
 }
 
-// Another app's window, much larger than the panel: coral, with a title bar and three lines.
+// Another app's window, which fills the icon: the background below is its coral body, and this is its title bar.
 let window = layer("""
-<rect x="8" y="10" width="76" height="62" rx="8" fill="#E8825B"/>
-<path d="\(topRoundedRect(x: 8, y: 10, width: 76, height: 11, radius: 8))" fill="#F0997B"/>
-<circle cx="14.5" cy="15.5" r="1.8" fill="#FAECE7"/>
-<circle cx="20" cy="15.5" r="1.8" fill="#FAECE7"/>
-<circle cx="25.5" cy="15.5" r="1.8" fill="#FAECE7"/>
-<rect x="15" y="28" width="34" height="4" rx="2" fill="#F5C4B3"/>
-<rect x="15" y="36" width="44" height="4" rx="2" fill="#F5C4B3"/>
-<rect x="15" y="44" width="16" height="4" rx="2" fill="#F5C4B3"/>
+<rect x="0" y="0" width="100" height="22" fill="#F3A483"/>
+<circle cx="16" cy="12" r="3" fill="#FDF0EA"/>
+<circle cx="26" cy="12" r="3" fill="#FDF0EA"/>
+<circle cx="36" cy="12" r="3" fill="#FDF0EA"/>
 """)
 
 // The FloatDraft panel floating over it, in Paper colors: header, separator, two lines of text.
 // Its shadow comes from the group's glass settings below.
 let panel = layer("""
-<rect x="36" y="44" width="54" height="40" rx="8.5" fill="#FFFDF8"/>
-<path d="\(topRoundedRect(x: 36, y: 44, width: 54, height: 10.5, radius: 8.5))" fill="#F1EFE8"/>
-<rect x="36" y="54.5" width="54" height="1" fill="#D3D1C7"/>
-<rect x="43" y="61.5" width="33" height="4.8" rx="2.4" fill="#D3D1C7"/>
-<rect x="43" y="71" width="18" height="4.8" rx="2.4" fill="#D3D1C7"/>
+<rect x="16" y="37" width="70" height="52" rx="10" fill="#FFFDF8"/>
+<path d="\(topRoundedRect(x: 16, y: 37, width: 70, height: 12.5, radius: 10))" fill="#EFEBE1"/>
+<rect x="16" y="49.5" width="70" height="1" fill="#D3D1C7"/>
+<rect x="25" y="58" width="44" height="6.4" rx="3.2" fill="#C9C6BA"/>
+<rect x="25" y="70.4" width="26" height="6.4" rx="3.2" fill="#C9C6BA"/>
 """)
 
-// Pencil writing at the end of the second line (tip at 61, 73.4), drawn with its tip at -12, 0.
+// Pencil writing at the end of the second line (tip at 51, 73.6), drawn with its tip at -12, 0.
+// A warm brown rather than black, so it belongs with the paper; a pale cap, as coral would melt into the window.
 let pencil = layer("""
-<g transform="translate(68.35 67.2) rotate(-40) scale(0.8)">
-<rect x="0" y="-7" width="34" height="14" fill="#2C2C2A"/>
-<rect x="34" y="-7" width="8" height="14" rx="2" fill="#D85A30"/>
+<g transform="translate(60.19 65.89) rotate(-40)">
+<rect x="0" y="-7" width="34" height="14" fill="#43362F"/>
+<rect x="34" y="-7" width="8" height="14" rx="2" fill="#F9D9C9"/>
 <path d="M0 -7 L-12 0 L0 7 Z" fill="#F5C4B3"/>
-<path d="M-7 -3 L-12 0 L-7 3 Z" fill="#2C2C2A"/>
+<path d="M-7 -3 L-12 0 L-7 3 Z" fill="#43362F"/>
 </g>
 """)
 
@@ -75,9 +73,18 @@ func group(_ name: String) -> [String: Any] {
     ]
 }
 
+func verticalGradient(_ top: String, _ bottom: String) -> [String: Any] {
+    ["linear-gradient": [top, bottom], "orientation": ["start": ["x": 0.5, "y": 0.0], "stop": ["x": 0.5, "y": 1.0]]]
+}
+
 let manifest: [String: Any] = [
-    // Background: a slightly deeper paper tone than the panel (#EAE6DD), so the icon keeps an edge on white.
-    "fill": ["solid": "extended-srgb:0.91765,0.90196,0.86667,1.00000"],
+    // Background: the window's coral (#EC8660 to #E0714A), which gives the icon a clear edge on white and on dark.
+    // The dark icon gets a deeper coral (#A9553A to #8C4029); left alone, the system turns the fill black.
+    "fill-specializations": [
+        ["value": verticalGradient("extended-srgb:0.92549,0.52549,0.37647,1.00000", "extended-srgb:0.87843,0.44314,0.29020,1.00000")],
+        ["appearance": "dark",
+         "value": verticalGradient("extended-srgb:0.66275,0.33333,0.22745,1.00000", "extended-srgb:0.54902,0.25098,0.16078,1.00000")],
+    ],
     // Front to back.
     "groups": [group("pencil"), group("panel"), group("window")],
     "supported-platforms": ["squares": ["macOS"]],

@@ -202,7 +202,7 @@ Dock は描かない（FloatDraft は Dock にアイコンを出さないアプ�
 
 ## 7. 既知の注意点
 
-- **アイコン**は Icon Composer 形式の `FloatDraft/Resources/AppIcon.icon` で、`scripts/make-app-icon.swift` が書き出す（他のアプリの大きなウィンドウの上に、鉛筆で書き込み中の小さな下書きパネルが浮かぶ図柄。配色は Paper テーマとそのコーラル）。Liquid Glass の各表示（通常・ダーク・色付き・クリア）と、macOS 14〜15 用の平面のアイコンは Xcode がここから作る。変えるときはスクリプトを直して `swift scripts/make-app-icon.swift` で実行し、`AppIcon.icon` を直接編集しない。見た目の確認は Icon Composer で開くか、`ictool`（Icon Composer.app/Contents/Executables）で書き出す
+- **アイコン**は Icon Composer 形式の `FloatDraft/Resources/AppIcon.icon` で、`scripts/make-app-icon.swift` が書き出す（アイコン全体を他のアプリのウィンドウに見立て、その上に鉛筆で書き込み中の下書きパネルが浮かぶ図柄。配色は Paper テーマとそのコーラルで、ダーク表示だけ深いコーラルにしている）。Liquid Glass の各表示（通常・ダーク・色付き・クリア）と、macOS 14〜15 用の平面のアイコンは Xcode がここから作る。変えるときはスクリプトを直して `swift scripts/make-app-icon.swift` で実行し、`AppIcon.icon` を直接編集しない。見た目の確認は Icon Composer で開くか、`ictool`（Icon Composer.app/Contents/Executables）で書き出す
 - **ログイン時起動**は /Applications に置いたビルドで動作確認する（DerivedData のビルドでは登録が不安定なことがある）
 - **4.2 対策の強化**: サービスメニュー「FloatDraft で編集」と App Intents（ショートカット.app）を実装済み。サービスは初回、システム設定 › キーボード › キーボードショートカット › サービス で有効になっているか確認する（/Applications に置いたビルドで確認）
 - **ITMS-90284（リソース束の署名）**: 1.0.0 のビルド 1 は、KeyboardShortcuts のリソース束（`KeyboardShortcuts_KeyboardShortcuts.bundle`）が Apple Development の署名のまま残り、App Store Connect で却下された（書き出しはアプリ本体だけを Apple Distribution で署名し直し、束はそのままにする）。`project.yml` のビルド後スクリプトで束の署名を外し、アプリ本体の署名が束のファイルを含めて守る形にした。verify.sh が、署名付きの束が残っていないかを確かめる。Swift Package を足したら、その束も外す対象に入れる
