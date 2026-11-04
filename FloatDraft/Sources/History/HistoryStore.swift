@@ -1,6 +1,8 @@
 import Foundation
 import Observation
 
+/// Stored in history.json. A new field must be optional or decode with a default: files written by earlier
+/// versions don't have it (`HistoryStoreTests.readsFileFromVersion1`).
 struct HistoryItem: Codable, Equatable, Identifiable {
     var id: UUID
     var text: String
@@ -31,11 +33,22 @@ final class HistoryStore {
     init(fileURL: URL = HistoryStore.defaultFileURL, now: @escaping () -> Date = Date.init) {
         self.fileURL = fileURL
         self.now = now
+        let contents = Self.load(from: fileURL)
+        items = contents.items
+        lastCopiedText = contents.lastCopiedText
+    }
+
+    /// A file that exists but can't be read is moved aside, not left where the next save would overwrite it
+    /// with an empty history: pinned items may still be recoverable from it.
+    private static func load(from fileURL: URL) -> Contents {
+        guard FileManager.default.fileExists(atPath: fileURL.path(percentEncoded: false)) else { return Contents() }
         if let data = try? Data(contentsOf: fileURL),
            let contents = try? JSONDecoder().decode(Contents.self, from: data) {
-            items = contents.items
-            lastCopiedText = contents.lastCopiedText
+            return contents
         }
+        let aside = fileURL.deletingLastPathComponent().appending(path: "history.unreadable-\(UUID().uuidString).json")
+        try? FileManager.default.moveItem(at: fileURL, to: aside)
+        return Contents()
     }
 
     static var defaultFileURL: URL {
@@ -66,6 +79,11 @@ final class HistoryStore {
     func togglePin(_ id: HistoryItem.ID) {
         guard let index = items.firstIndex(where: { $0.id == id }) else { return }
         items[index].isPinned.toggle()
+        if !items[index].isPinned {
+            // To the top of Recent: left where its age puts it, an old item could be past the limit and vanish.
+            let item = items.remove(at: index)
+            items.insert(item, at: 0)
+        }
         trimUnpinned()
         save()
     }

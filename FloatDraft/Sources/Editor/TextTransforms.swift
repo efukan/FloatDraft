@@ -16,7 +16,7 @@ enum TextTransforms {
     /// Adds `> ` to every line, or removes the quote marker when every line already has one.
     static func toggleQuote(text: String, selection: NSRange) -> TextEdit? {
         let target = lineRange(in: text, selection: selection)
-        let (body, trailingNewline) = splitTrailingNewline(substring(text, target))
+        let (body, trailingNewline) = splitTrailingNewline(normalizingLineEndings(substring(text, target)))
         guard !body.isEmpty || trailingNewline else { return nil }
 
         let lines = body.components(separatedBy: "\n")
@@ -36,7 +36,7 @@ enum TextTransforms {
     /// backtick run inside (minimum three), so existing fences are never broken (E13).
     static func wrapInCodeFence(text: String, selection: NSRange) -> TextEdit? {
         let target = lineRange(in: text, selection: selection)
-        let (body, trailingNewline) = splitTrailingNewline(substring(text, target))
+        let (body, trailingNewline) = splitTrailingNewline(normalizingLineEndings(substring(text, target)))
         let fence = String(repeating: "`", count: max(3, longestBacktickRun(in: body) + 1))
 
         if body.isEmpty && !trailingNewline {
@@ -56,7 +56,7 @@ enum TextTransforms {
     static func tidyWhitespace(text: String, selection: NSRange) -> TextEdit? {
         let target = lineRange(in: text, selection: selection)
         let original = substring(text, target)
-        let visible = InvisibleCharacters.removing(from: original)
+        let visible = normalizingLineEndings(InvisibleCharacters.removing(from: original))
         let trimmedLines = visible.components(separatedBy: "\n").map { line in
             String(line.reversed().drop { $0.isWhitespace && !$0.isNewline }.reversed())
         }
@@ -76,7 +76,8 @@ enum TextTransforms {
             return TextEdit(range: NSRange(location: 0, length: length), replacement: incoming,
                             selectionAfter: NSRange(location: (incoming as NSString).length, length: 0))
         }
-        let replacement = (text.hasSuffix("\n") ? "" : "\n") + incoming
+        // `last`, not `hasSuffix("\n")`: "\r\n" is one Character, so it doesn't end in "\n".
+        let replacement = (text.last?.isNewline == true ? "" : "\n") + incoming
         return TextEdit(range: NSRange(location: length, length: 0), replacement: replacement,
                         selectionAfter: NSRange(location: length + (replacement as NSString).length, length: 0))
     }
@@ -88,6 +89,12 @@ enum TextTransforms {
         let string = text as NSString
         guard selection.length > 0 else { return NSRange(location: 0, length: string.length) }
         return string.paragraphRange(for: selection)
+    }
+
+    /// Pasted text keeps its line endings (CRLF from Windows, U+2028 from word processors), but the operations
+    /// above work on "\n". Only the lines an operation touches change; copying never rewrites them.
+    private static func normalizingLineEndings(_ string: String) -> String {
+        string.replacingOccurrences(of: "\\r\\n|[\\r\\u2028\\u2029]", with: "\n", options: .regularExpression)
     }
 
     private static func makeEdit(text: String, target: NSRange, replacement: String, selection: NSRange) -> TextEdit? {

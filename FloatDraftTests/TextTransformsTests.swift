@@ -104,6 +104,36 @@ struct TextTransformsTests {
             == "one\ntwo\u{200B}")
     }
 
+    // MARK: Line endings other than "\n"
+
+    @Test(arguments: [
+        ("a  \r\n\r\n\r\n\r\nb\r\n", "a\n\nb\n"),
+        ("a  \r\r\r\rb", "a\n\nb"),
+        ("a  \u{2028}\u{2028}\u{2028}\u{2028}b", "a\n\nb"),
+        ("a  \u{2029}\u{2029}\u{2029}b", "a\n\nb"),
+        ("a\r\nb", "a\nb"),
+    ])
+    func tidyHandlesEveryLineEnding(text: String, expected: String) {
+        #expect(apply(TextTransforms.tidyWhitespace(text: text, selection: noSelection), to: text) == expected)
+    }
+
+    @Test(arguments: ["a\r\n\r\nb", "a\u{2028}\u{2028}b"])
+    func quoteMarksEveryLineAcrossLineEndings(text: String) {
+        #expect(apply(TextTransforms.toggleQuote(text: text, selection: noSelection), to: text) == "> a\n>\n> b")
+    }
+
+    @Test func fenceAddsNoBlankLineBeforeClosingOnCRLF() {
+        let text = "a\r\nb\r\n"
+        #expect(apply(TextTransforms.wrapInCodeFence(text: text, selection: noSelection), to: text)
+            == "```\na\nb\n```\n")
+    }
+
+    @Test func selectionChangesOnlyTheSelectedLinesEndings() {
+        let text = "one\r\ntwo\r\nthree"
+        #expect(apply(TextTransforms.toggleQuote(text: text, selection: NSRange(location: 5, length: 1)), to: text)
+            == "one\r\n> two\nthree")
+    }
+
     // MARK: External text (Services menu, Shortcuts)
 
     @Test func externalTextReplacesBlankDraft() {
@@ -121,6 +151,10 @@ struct TextTransformsTests {
 
     @Test func externalTextReusesExistingTrailingNewline() {
         #expect(apply(TextTransforms.addingExternalText("new", to: "old\n"), to: "old\n") == "old\nnew")
+    }
+
+    @Test func externalTextReusesTrailingCRLF() {
+        #expect(apply(TextTransforms.addingExternalText("new", to: "old\r\n"), to: "old\r\n") == "old\r\nnew")
     }
 
     @Test func externalTextCaretCountsUTF16() {

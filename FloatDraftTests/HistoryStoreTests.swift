@@ -100,6 +100,96 @@ struct HistoryStoreTests {
         #expect(reloaded.lastCopiedText == "latest")
     }
 
+    // MARK: Unpinning
+
+    @Test func unpinningAnOldItemKeepsItAtTheTopOfRecent() {
+        let history = environment.makeHistory()
+        history.add("old snippet")
+        history.togglePin(history.items[0].id)
+        for index in 1...30 { history.add("draft \(index)") }
+
+        history.togglePin(history.items.first { $0.text == "old snippet" }!.id)
+
+        #expect(history.recentItems.first?.text == "old snippet")
+        #expect(history.recentItems.count == HistoryStore.unpinnedLimit, "The oldest other item makes room")
+        #expect(history.recentItems.last?.text == "draft 2")
+        #expect(environment.makeHistory().recentItems.first?.text == "old snippet", "Saved")
+    }
+
+    @Test func unpinningTheLastCopiedItemKeepsReCopy() {
+        let history = environment.makeHistory()
+        history.add("template")
+        history.togglePin(history.items[0].id)
+        for index in 1...30 { history.add("draft \(index)") }
+        history.add("template")
+
+        history.togglePin(history.items.first { $0.text == "template" }!.id)
+
+        #expect(history.lastCopiedText == "template")
+        #expect(history.items.contains { $0.text == "template" })
+    }
+
+    @Test func unpinningLeavesOtherPinnedItemsInOrder() {
+        let history = environment.makeHistory()
+        for text in ["a", "b", "c"] {
+            history.add(text)
+            history.togglePin(history.items[0].id)
+        }
+        history.togglePin(history.items.first { $0.text == "b" }!.id)
+        #expect(history.pinnedItems.map(\.text) == ["c", "a"])
+    }
+
+    // MARK: The history file
+
+    /// The format 1.0.0 shipped with. If this breaks, a new field needs a default (see `HistoryItem`).
+    @Test func readsFileFromVersion1() throws {
+        try writeHistoryFile(#"""
+            {"items":[{"id":"6F9619FF-8B86-D011-B42D-00CF4FC964FF","text":"saved","copiedAt":800000000,"isPinned":true}],\#
+            "lastCopiedText":"saved"}
+            """#)
+        let history = environment.makeHistory()
+        #expect(history.pinnedItems.map(\.text) == ["saved"])
+        #expect(history.lastCopiedText == "saved")
+        #expect(try setAsideFiles().isEmpty)
+    }
+
+    @Test(arguments: [
+        "not json",
+        #"{"items":[{"id":"6F9619FF-8B86-D011-B42D-00CF4FC964FF","text":"precious","isPinned":true}]}"#,
+    ])
+    func unreadableFileIsSetAsideNotOverwritten(contents: String) throws {
+        try writeHistoryFile(contents)
+
+        let history = environment.makeHistory()
+        #expect(history.items.isEmpty)
+        history.add("new")
+
+        let aside = try setAsideFiles()
+        #expect(aside.count == 1)
+        #expect(try String(contentsOf: aside[0], encoding: .utf8) == contents)
+        #expect(environment.makeHistory().items.map(\.text) == ["new"], "History works again afterwards")
+    }
+
+    @Test func missingFileSetsNothingAside() throws {
+        let history = environment.makeHistory()
+        history.add("first")
+        #expect(try setAsideFiles().isEmpty)
+    }
+
+    private func writeHistoryFile(_ contents: String) throws {
+        try FileManager.default.createDirectory(at: environment.historyURL.deletingLastPathComponent(),
+                                                withIntermediateDirectories: true)
+        try contents.write(to: environment.historyURL, atomically: true, encoding: .utf8)
+    }
+
+    private func setAsideFiles() throws -> [URL] {
+        try FileManager.default.contentsOfDirectory(at: environment.historyURL.deletingLastPathComponent(),
+                                                    includingPropertiesForKeys: nil)
+            .filter { $0.lastPathComponent.hasPrefix("history.unreadable-") }
+    }
+
+    // MARK: Search
+
     @Test(arguments: [
         ("HELLO", "hello world"),
         ("ＡＢＣ", "abc def"),
