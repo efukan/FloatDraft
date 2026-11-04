@@ -105,18 +105,21 @@ enum ScreenshotDemo {
     private static func showBackdrops() {
         if let screen = NSScreen.main?.frame {
             let desktop = NSWindow(contentRect: screen, styleMask: .borderless, backing: .buffered, defer: false)
-            // About the color of the toned-down wallpaper in make-screenshots.swift.
-            desktop.backgroundColor = scene == .themes
-                ? NSColor(srgbRed: 0.17, green: 0.13, blue: 0.11, alpha: 1)
-                : NSColor(srgbRed: 0.93, green: 0.84, blue: 0.74, alpha: 1)
+            // About the color of the blue desktop drawn in make-screenshots.swift.
+            desktop.backgroundColor = NSColor(srgbRed: 0.14, green: 0.34, blue: 0.72, alpha: 1)
             desktop.isReleasedWhenClosed = false
             desktop.ignoresMouseEvents = true
             desktop.orderFront(nil)
             retained.append(desktop)
         }
 
+        // The opposite of the panel, so it stands out: dark apps behind the light Paper panel, and the other way
+        // around for the dark Indigo one.
+        let backdropAppearance = NSAppearance(named: scene == .themes ? .aqua : .darkAqua)
+
         let notes = NSWindow(contentRect: NSRect(origin: .zero, size: notesSize),
                              styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
+        notes.appearance = backdropAppearance
         notes.title = isJapanese ? "打ち合わせメモ.txt" : "Meeting Notes.txt"
         notes.isReleasedWhenClosed = false
         notes.contentView = NSHostingView(rootView: MockNotesView(isJapanese: isJapanese))
@@ -127,6 +130,7 @@ enum ScreenshotDemo {
         let chat = NSWindow(contentRect: NSRect(origin: .zero, size: chatSize),
                             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
                             backing: .buffered, defer: false)
+        chat.appearance = backdropAppearance
         chat.titlebarAppearsTransparent = true
         chat.titleVisibility = .hidden
         chat.isReleasedWhenClosed = false

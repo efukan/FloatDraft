@@ -6,7 +6,7 @@
 // Each scene is staged by the Debug-only `-screenshotScene` hook (ScreenshotDemo.swift), which uses
 // throwaway stores, so the real draft, history, settings and clipboard are left alone. Its windows (a made-up
 // chat app, the panel, the copy confirmation) are captured with `screencapture -l` and laid out at their real
-// size on a desktop as on a 1440×900 Retina screen: a calmed-down macOS wallpaper, a drawn menu bar and pointer.
+// size on a desktop as on a 1440×900 Retina screen: a drawn blue background and menu bar.
 // The demo activates itself to keep the panel open: leave the keyboard and mouse alone while this runs.
 import AppKit
 import CoreImage
@@ -14,30 +14,15 @@ import CoreImage
 let app = "build/DerivedData/Build/Products/Debug/FloatDraft.app/Contents/MacOS/FloatDraft"
 let environment = ProcessInfo.processInfo.environment
 let outputRoot = URL(fileURLWithPath: environment["OUTPUT"] ?? "build/screenshots")
-/// For trying out changes: WALLPAPER=<image file>, WALLPAPER_MUTE=0…1, WALLPAPER_HUE=<degrees>,
-/// WALLPAPER_WASH=<RRGGBB>, SCENES=open,compose, LANGS=ja.
-/// The default is macOS's own "iMac Orange" picture, toned down and turned a little from salmon toward
-/// apricot, so it reads as a Mac desktop in the warm colors of the app icon and the Paper theme without
-/// competing with the panel.
-let wallpaperPath = environment["WALLPAPER"] ?? "/System/Library/Desktop Pictures/iMac Orange.heic"
-/// How far the wallpaper is calmed down: less saturated, and washed toward `wallpaperWash` (black in the dark scene).
-let wallpaperMute = environment["WALLPAPER_MUTE"].flatMap(Double.init) ?? 0.6
-let wallpaperWash = environment["WALLPAPER_WASH"].flatMap { UInt32($0, radix: 16) } ?? 0xFFFFFF
-let wallpaper: NSImage = {
-    guard let image = NSImage(contentsOfFile: wallpaperPath) else { fatalError("No wallpaper at \(wallpaperPath)") }
-    let degrees = environment["WALLPAPER_HUE"].flatMap(Double.init) ?? 8
-    guard degrees != 0 else { return image }
-    let shifted = CIImage(data: image.tiffRepresentation!)!
-        .applyingFilter("CIHueAdjust", parameters: [kCIInputAngleKey: degrees * .pi / 180])
-    return NSImage(cgImage: CIContext().createCGImage(shifted, from: shifted.extent)!, size: image.size)
-}()
+/// For trying out changes: SCENES=open,compose, LANGS=ja.
 let sceneFilter = environment["SCENES"].map { Set($0.split(separator: ",").map(String.init)) }
 let languages = environment["LANGS"].map { $0.split(separator: ",").map(String.init) } ?? ["ja", "en"]
 let canvas = CGSize(width: 2880, height: 1800)
 
 struct Scene {
     var name: String
-    var dark = false
+    /// The windows behind the panel are dark, except behind the dark panel of the themes scene.
+    var lightWindows = false
     var caption: [String: (title: String, subtitle: String)]
 }
 
@@ -45,8 +30,8 @@ struct Scene {
 /// The order tells the story: open it anywhere, write without fear of sending, paste, then the extras.
 let scenes = [
     Scene(name: "open", caption: [
-        "ja": ("⌃⇧Space で、すぐ下書き", "どのアプリを使っていても、マウスのそばに下書きパネルが開きます"),
-        "en": ("Start a draft with ⌃⇧Space", "From any app, a small draft panel opens right by your pointer"),
+        "ja": ("ショートカットひとつで、すぐ下書き", "どのアプリを使っていても、マウスのそばに下書きパネルが開きます"),
+        "en": ("Start a draft with one shortcut", "From any app, a small draft panel opens right by your pointer"),
     ]),
     Scene(name: "compose", caption: [
         "ja": ("Return は改行。送信されません", "変換を確定しても、何度改行しても、書きかけのまま送られることはありません"),
@@ -64,7 +49,7 @@ let scenes = [
         "ja": ("送った下書きは、履歴から呼び戻せる", "検索・ピン留め・ワンクリックで復元"),
         "en": ("Every sent draft, in History", "Search, pin, and bring one back with a click"),
     ]),
-    Scene(name: "themes", dark: true, caption: [
+    Scene(name: "themes", lightWindows: true, caption: [
         "ja": ("好みの見た目で", "5 つのテーマとダークモード。データはこの Mac の中だけに保存されます"),
         "en": ("Make it yours", "Five themes and Dark Mode. Everything stays on your Mac"),
     ]),
@@ -160,20 +145,15 @@ func rect(x: CGFloat, top: CGFloat, width: CGFloat, height: CGFloat) -> NSRect {
     NSRect(x: x, y: canvas.height - top - height, width: width, height: height)
 }
 
-/// The desktop picture, aspect-filled and calmed down; darkened for the dark scene.
-func drawWallpaper(dark: Bool) {
-    let size = wallpaper.size
-    let scale = max(canvas.width / size.width, canvas.height / size.height)
-    wallpaper.draw(in: NSRect(x: (canvas.width - size.width * scale) / 2, y: (canvas.height - size.height * scale) / 2,
-                              width: size.width * scale, height: size.height * scale))
-    let context = NSGraphicsContext.current!.cgContext
-    context.saveGState()
-    context.setBlendMode(.saturation)
-    NSColor(white: 0.5, alpha: wallpaperMute * 0.6).setFill()
-    context.fill(CGRect(origin: .zero, size: canvas))
-    context.restoreGState()
-    (dark ? NSColor.black : color(wallpaperWash)).withAlphaComponent(dark ? 0.55 + wallpaperMute * 0.2 : wallpaperMute * 0.4).setFill()
-    NSRect(origin: .zero, size: canvas).fill(using: .sourceAtop)
+/// The desktop: a clear blue, the opposite of the app's warm colors, with no pattern behind the caption.
+/// Soft light in the lower corners keeps it from looking like a flat slide.
+func drawDesktop() {
+    NSGradient(starting: color(0x2F6FDB), ending: color(0x1A3F9C))!.draw(in: NSRect(origin: .zero, size: canvas), angle: -60)
+    for (center, hex, alpha, radius) in [(NSPoint(x: 2500, y: 200), UInt32(0x4FC3F7), CGFloat(0.4), CGFloat(1300)),
+                                         (NSPoint(x: 200, y: 100), UInt32(0x5B3FD6), CGFloat(0.55), CGFloat(1200))] {
+        NSGradient(colors: [color(hex, alpha: alpha), color(hex, alpha: 0)])!
+            .draw(fromCenter: center, radius: 0, toCenter: center, radius: radius, options: [])
+    }
 }
 
 /// Draws an SF Symbol tinted `tint`, its left edge at `x` and centered on `midY`; returns its width.
@@ -193,12 +173,12 @@ func drawSymbol(_ name: String, size: CGFloat, x: CGFloat, midY: CGFloat, tint: 
 
 /// The menu bar of a 1440×900 pt screen at 2×: the chat app's menus on the left, FloatDraft's icon among
 /// the status items on the right.
-func drawMenuBar(dark: Bool, language: String, panelIsOpen: Bool) {
+func drawMenuBar(language: String, panelIsOpen: Bool) {
     let height: CGFloat = 48
     let bar = rect(x: 0, top: 0, width: canvas.width, height: height)
-    (dark ? NSColor.black.withAlphaComponent(0.3) : NSColor.white.withAlphaComponent(0.42)).setFill()
+    NSColor.black.withAlphaComponent(0.18).setFill()
     bar.fill()
-    let ink = dark ? NSColor.white : color(0x1D1D1F)
+    let ink = NSColor.white
     let midY = bar.midY
     @discardableResult
     func text(_ string: String, x: CGFloat, bold: Bool = false) -> CGFloat {
@@ -230,7 +210,7 @@ func drawMenuBar(dark: Bool, language: String, panelIsOpen: Bool) {
         x -= width + 40
         if symbol == "square.and.pencil" && panelIsOpen {
             // FloatDraft's icon, highlighted as when its panel is open.
-            (dark ? NSColor.white.withAlphaComponent(0.2) : NSColor.black.withAlphaComponent(0.1)).setFill()
+            NSColor.white.withAlphaComponent(0.25).setFill()
             NSBezierPath(roundedRect: NSRect(x: x - 14, y: midY - 20, width: width + 28, height: 40),
                          xRadius: 8, yRadius: 8).fill()
         }
@@ -240,37 +220,18 @@ func drawMenuBar(dark: Bool, language: String, panelIsOpen: Bool) {
 
 func drawCaption(_ scene: Scene, language: String) {
     let (title, subtitle) = scene.caption[language]!
-    let ink = scene.dark ? NSColor.white : color(0x2A221E)
-
-    // A soft wash of light (or shade) behind the caption keeps it readable over the wallpaper's shapes,
-    // so the type itself can stay clean: no glow, no heavy weights.
-    let center = NSPoint(x: canvas.width / 2, y: canvas.height - 222)
-    let wash = scene.dark ? NSColor.black : NSColor.white
-    NSGraphicsContext.saveGraphicsState()
-    let transform = NSAffineTransform()
-    transform.translateX(by: center.x, yBy: center.y)
-    transform.scaleX(by: 1, yBy: 0.22)
-    transform.concat()
-    NSGradient(colors: [wash.withAlphaComponent(scene.dark ? 0.45 : 0.65), wash.withAlphaComponent(0)])!
-        .draw(fromCenter: .zero, radius: 0, toCenter: .zero, radius: 1550, options: [])
-    NSGraphicsContext.restoreGraphicsState()
-
     let centered = NSMutableParagraphStyle()
     centered.alignment = .center
-    // A little extra letter spacing: Japanese at display sizes looks cramped at the font's default.
-    let isJapanese = language == "ja"
     NSAttributedString(string: title, attributes: [
-        .font: NSFont.systemFont(ofSize: 96, weight: .semibold),
-        .foregroundColor: ink,
+        .font: NSFont.systemFont(ofSize: 112, weight: .bold),
+        .foregroundColor: NSColor.white,
         .paragraphStyle: centered,
-        .kern: isJapanese ? 5 : 1.5,
-    ]).draw(in: rect(x: 120, top: 128, width: canvas.width - 240, height: 140))
+    ]).draw(in: rect(x: 120, top: 112, width: canvas.width - 240, height: 160))
     NSAttributedString(string: subtitle, attributes: [
-        .font: NSFont.systemFont(ofSize: 46, weight: .regular),
-        .foregroundColor: ink.withAlphaComponent(scene.dark ? 0.85 : 0.8),
+        .font: NSFont.systemFont(ofSize: 50, weight: .regular),
+        .foregroundColor: NSColor.white.withAlphaComponent(0.92),
         .paragraphStyle: centered,
-        .kern: isJapanese ? 2.5 : 0.5,
-    ]).draw(in: rect(x: 120, top: 276, width: canvas.width - 240, height: 70))
+    ]).draw(in: rect(x: 120, top: 280, width: canvas.width - 240, height: 80))
 }
 
 func drawWindow(_ image: NSImage, in frame: NSRect, blur: CGFloat, offset: CGFloat, opacity: CGFloat) {
@@ -284,46 +245,28 @@ func drawWindow(_ image: NSImage, in frame: NSRect, blur: CGFloat, offset: CGFlo
     NSGraphicsContext.restoreGraphicsState()
 }
 
-/// A window behind the panel, pushed back: softly blurred, dimmed and less saturated, so the panel reads as
-/// the subject while the desktop still looks real. The window keeps its exact shape (rounded corners).
-func receded(_ image: NSImage, dark: Bool) -> NSImage {
+/// A window behind the panel, pushed back: dimmed and less saturated, so the panel reads as the subject while
+/// the desktop still looks real. The window keeps its exact shape (rounded corners).
+func receded(_ image: NSImage, light: Bool) -> NSImage {
     let source = CIImage(data: image.tiffRepresentation!)!
-    let toned = source.clampedToExtent()
-        .applyingGaussianBlur(sigma: 3)
-        .cropped(to: source.extent)
+    let toned = source
         .applyingFilter("CIColorControls", parameters: [
             kCIInputSaturationKey: 0.7,
             // On dark windows the light text is what stands out, so it is toned down further.
-            kCIInputBrightnessKey: dark ? -0.1 : -0.06,
-            kCIInputContrastKey: dark ? 0.7 : 0.9,
+            kCIInputBrightnessKey: light ? -0.06 : -0.13,
+            kCIInputContrastKey: light ? 0.9 : 0.7,
         ])
         .applyingFilter("CISourceInCompositing", parameters: [kCIInputBackgroundImageKey: source])
     return NSImage(cgImage: CIContext().createCGImage(toned, from: source.extent)!, size: pixelSize(image))
 }
 
-/// The arrow pointer with its tip at (`tipX`, `tipTop`), where the panel was opened: black with a white rim,
-/// at 2× the 12×19 pt system arrow.
-func drawPointer(tipX: CGFloat, tipTop: CGFloat) {
-    let outline: [(CGFloat, CGFloat)] = [(0, 0), (0, 16.6), (4.1, 12.8), (6.9, 19.2), (9.5, 18.1), (6.8, 11.8), (12.2, 11.8)]
-    let path = NSBezierPath()
-    for (index, (x, y)) in outline.enumerated() {
-        let point = NSPoint(x: tipX + x * 2, y: canvas.height - tipTop - y * 2)
-        index == 0 ? path.move(to: point) : path.line(to: point)
+/// The colored traffic lights of the active window, over the captured ones: the panel leaves the app behind it active,
+/// but whether the demo gets to look that way depends on which app was frontmost when the script ran.
+func drawTrafficLights(on window: NSRect) {
+    for (offset, hex) in [(CGFloat(32), UInt32(0xEC6A5E)), (78, 0xF4BF4F), (124, 0x61C554)] {
+        color(hex).setFill()
+        NSBezierPath(ovalIn: NSRect(x: window.minX + offset - 15, y: window.maxY - 32 - 15, width: 30, height: 30)).fill()
     }
-    path.close()
-    path.lineJoinStyle = .round
-    NSGraphicsContext.saveGraphicsState()
-    let shadow = NSShadow()
-    shadow.shadowColor = NSColor.black.withAlphaComponent(0.35)
-    shadow.shadowBlurRadius = 6
-    shadow.shadowOffset = NSSize(width: 0, height: -3)
-    shadow.set()
-    NSColor.white.setStroke()
-    path.lineWidth = 5
-    path.stroke()
-    NSGraphicsContext.restoreGraphicsState()
-    NSColor.black.setFill()
-    path.fill()
 }
 
 /// ⌃ ⇧ Space as keyboard keys, from `left`, centered on `midTop` (top-left coordinates).
@@ -368,33 +311,33 @@ func compose(_ scene: Scene, language: String, shot: Shot) -> Data {
     NSGraphicsContext.current = NSGraphicsContext(cgContext: context, flipped: false)
     NSGraphicsContext.current?.imageInterpolation = .high
 
-    drawWallpaper(dark: scene.dark)
-    drawMenuBar(dark: scene.dark, language: language, panelIsOpen: shot.panel != nil)
+    drawDesktop()
+    drawMenuBar(language: language, panelIsOpen: shot.panel != nil)
     drawCaption(scene, language: language)
 
     // Every window at its real size: the captures are 2×, like the canvas. The notes window peeks out
     // from behind the chat app, as on a desktop in use; both recede so the panel stands out.
     let notesSize = pixelSize(shot.notes)
-    drawWindow(receded(shot.notes, dark: scene.dark), in: rect(x: 170, top: 430, width: notesSize.width, height: notesSize.height),
-               blur: 50, offset: 18, opacity: scene.dark ? 0.5 : 0.22)
+    drawWindow(receded(shot.notes, light: scene.lightWindows), in: rect(x: 170, top: 430, width: notesSize.width, height: notesSize.height),
+               blur: 50, offset: 18, opacity: 0.4)
     let chatSize = pixelSize(shot.chat)
     let chat = rect(x: canvas.width - chatSize.width - 190, top: 520, width: chatSize.width, height: chatSize.height)
-    drawWindow(receded(shot.chat, dark: scene.dark), in: chat, blur: 90, offset: 32, opacity: scene.dark ? 0.6 : 0.3)
+    drawWindow(receded(shot.chat, light: scene.lightWindows), in: chat, blur: 90, offset: 32, opacity: 0.5)
+    drawTrafficLights(on: chat)
 
     if scene.name == "open" {
         // The shortcut, on the desktop below the notes window.
         drawShortcutKeys(left: 210, midTop: 1590)
     }
 
-    // The panel opens just below the pointer, over the chat app, leaving its messages readable.
+    // The panel sits over the chat app, leaving its messages readable.
     let anchor = (x: chat.midX + 160, top: CGFloat(1060))
     if let panel = shot.panel {
         let size = pixelSize(panel)
         let x = min(anchor.x - size.width / 2, canvas.width - size.width - 100)
         let top = min(anchor.top, canvas.height - size.height - 90)
         drawWindow(panel, in: rect(x: x, top: top, width: size.width, height: size.height),
-                   blur: 90, offset: 34, opacity: scene.dark ? 0.8 : 0.5)
-        drawPointer(tipX: x + 70, tipTop: top - 12)
+                   blur: 90, offset: 34, opacity: 0.6)
     }
     if let toast = shot.toast {
         let size = pixelSize(toast)
